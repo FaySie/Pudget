@@ -1,16 +1,54 @@
 # === 金鑰 / 機密 ===
 .env
 .env.*
-*.key
-credentials*.json
 !.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+credentials*.json
+service-account*.json
+client_secret*.json
+secrets.*
+*.secret
+*.token
+token.json
+tokens.json
+.netrc
+.npmrc
+id_rsa*
+id_ed25519*
+*.ppk
 
 # === 實際交易資料 ===
 data/*
-*.csv
-*.db
-*.sqlite3
 !data/.gitkeep
+!data/sample/
+*.csv
+*.tsv
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# === 銀行 / 發卡機構對帳單匯出格式 ===
+# 這些是真實金流最常見的外洩管道;若要保留「假的」範例檔,請用 git add -f 個別加入
+*.ofx
+*.qfx
+*.qif
+*.xls
+*.xlsx
+*.pdf
+
+# === 資料庫傾印 / 備份 ===
+*.sql
+*.dump
+*.bak
+*.backup
 
 # === 作業系統 ===
 .DS_Store
@@ -24,4 +62,5 @@ Thumbs.db
 
 # === 日誌 / 暫存 ===
 *.log
+logs/
 tmp/
