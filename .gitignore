@@ -1,0 +1,27 @@
+# === 金鑰 / 機密 ===
+.env
+.env.*
+*.key
+credentials*.json
+!.env.example
+
+# === 實際交易資料 ===
+data/*
+*.csv
+*.db
+*.sqlite3
+!data/.gitkeep
+
+# === 作業系統 ===
+.DS_Store
+Thumbs.db
+
+# === 編輯器 / IDE ===
+.vscode/
+.idea/
+*.swp
+*~
+
+# === 日誌 / 暫存 ===
+*.log
+tmp/
