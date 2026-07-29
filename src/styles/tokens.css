@@ -1,0 +1,48 @@
+/* 設計 token —— 對齊 Figma 的 Color 變數（亮色為主，暗色沿用相同語意） */
+:root {
+  /* 色彩 */
+  --ground: #eef0f3;
+  --surface: #ffffff;
+  --surface-2: #f5f6f8;
+  --ink: #1b1d21;
+  --ink-mut: #868c95;
+  --line: #e1e4e8;
+  --yellow: #ffda1f;
+  --yellow-fill: #ffe976;
+  --yellow-soft: #fff6ce;
+  --berry: #ef4444;
+  --berry-bg: #feecec;
+
+  /* icon 專用（對齊 Figma icon/stroke、icon/fill） */
+  --icon-stroke: var(--ink);
+  --icon-fill: var(--yellow-fill);
+
+  /* 圓角 / 間距 */
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* 字型：優先用 iOS/Mac 內建圓體，零下載、離線可用 */
+  --font-round: "Hiragino Maru Gothic ProN", ui-rounded, "SF Pro Rounded",
+    "M PLUS Rounded 1c", "Noto Sans TC", system-ui, sans-serif;
+  --font-body: "PingFang TC", "Noto Sans TC", system-ui, -apple-system, sans-serif;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0f1113;
+    --surface: #1c1f23;
+    --surface-2: #25282d;
+    --ink: #f1f3f5;
+    --ink-mut: #969ca5;
+    --line: #2e3238;
+    --yellow: #ffda1f;
+    --yellow-fill: #d8b633;
+    --yellow-soft: #3a331b;
+    --berry: #ff6b6b;
+    --berry-bg: #3a2320;
+  }
+}

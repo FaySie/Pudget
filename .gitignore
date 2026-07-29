@@ -67,3 +67,14 @@ Thumbs.db
 *.log
 logs/
 tmp/
+
+# === Node / 建置產物 ===
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+

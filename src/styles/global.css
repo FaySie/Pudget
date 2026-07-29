@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--ground);
+  letter-spacing: 0.02em;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 圓體中文補字距（對齊 Figma 的 0.1em） */
+.font-round {
+  font-family: var(--font-round);
+  letter-spacing: 0.1em;
+}
+
+button {
+  font-family: inherit;
+  letter-spacing: inherit;
+}
+
+/* 表單元素基礎 */
+input,
+button,
+select {
+  font-family: inherit;
+}
+
+/* Tabler icon 上色：黑線 + 局部填黃（CSS 覆寫 svg 的 fill="none"） */
+.icon-filled svg {
+  stroke: var(--icon-stroke);
+  fill: var(--icon-fill);
+}
+.icon-muted svg {
+  stroke: var(--ink-mut);
+  fill: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
