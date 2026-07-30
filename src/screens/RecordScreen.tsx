@@ -179,7 +179,12 @@ export function RecordScreen() {
         </div>
       )}
       {settingsOpen && <Settings onClose={() => setSettingsOpen(false)} />}
-      {recordsOpen && <Records onClose={() => setRecordsOpen(false)} />}
+      {recordsOpen && (
+        <Records
+          onClose={() => setRecordsOpen(false)}
+          onFlush={() => setPending(getQueueCount())}
+        />
+      )}
     </>
   )
 }

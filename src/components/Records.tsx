@@ -1,7 +1,63 @@
-import { IconX, IconFileDescription } from '@tabler/icons-react'
+import { useState, useEffect } from 'react'
+import { IconX, IconClock, IconCircleCheck } from '@tabler/icons-react'
+import {
+  getQueue,
+  getSyncedLog,
+  flushQueue,
+  type QueuedEntry,
+  type SyncedEntry,
+} from '../lib/queue'
+import { CATEGORIES } from '../data/categories'
 
-/** 紀錄頁（從右上角 history 圖示開啟）。目前為佔位，之後放「待同步 / 已同步」清單。 */
-export function Records({ onClose }: { onClose: () => void }) {
+function fmtDate(d: string): string {
+  const p = d.split('-')
+  return `${Number(p[1])}/${Number(p[2])}`
+}
+
+function Row({ e }: { e: QueuedEntry | SyncedEntry }) {
+  const cat = CATEGORIES.find((c) => c.label === e.category)
+  const Icon = cat?.Icon
+  return (
+    <li className="rec-row">
+      {Icon && (
+        <span className="rec-row__icon icon-filled">
+          <Icon size={20} stroke={1.7} />
+        </span>
+      )}
+      <div className="rec-row__main">
+        <div className="rec-row__item">
+          {e.item}
+          {e.settleFirst && <span className="rec-row__flag">紅字</span>}
+        </div>
+        <div className="rec-row__meta">
+          {fmtDate(e.date)}・{e.payer}・{e.category}
+        </div>
+      </div>
+      <div className="rec-row__amt">NT${e.amount}</div>
+    </li>
+  )
+}
+
+export function Records({ onClose, onFlush }: { onClose: () => void; onFlush: () => void }) {
+  const [pending, setPending] = useState<QueuedEntry[]>(getQueue())
+  const [synced, setSynced] = useState<SyncedEntry[]>(getSyncedLog())
+  const [syncing, setSyncing] = useState(false)
+
+  async function syncNow() {
+    setSyncing(true)
+    await flushQueue()
+    setSyncing(false)
+    setPending(getQueue())
+    setSynced(getSyncedLog())
+    onFlush()
+  }
+
+  // 開啟即嘗試同步一次
+  useEffect(() => {
+    syncNow()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="settings-overlay" role="dialog" aria-label="紀錄">
       <div className="settings-sheet">
@@ -11,12 +67,54 @@ export function Records({ onClose }: { onClose: () => void }) {
             <IconX size={22} stroke={1.8} />
           </button>
         </div>
-        <div className="settings-body placeholder">
-          <span className="icon-muted placeholder__icon">
-            <IconFileDescription size={40} stroke={1.6} />
-          </span>
-          <p className="placeholder__title">紀錄頁開發中</p>
-          <p className="placeholder__sub">這裡會顯示這支手機的「待同步 / 已同步」紀錄</p>
+
+        <div className="settings-body">
+          <section className="rec-section">
+            <div className="rec-head">
+              <span className="icon-muted">
+                <IconClock size={17} stroke={2} />
+              </span>
+              待同步
+              <span className="rec-count">{pending.length}</span>
+            </div>
+            {pending.length ? (
+              <ul className="rec-list">
+                {pending.map((e) => (
+                  <Row key={e.id} e={e} />
+                ))}
+              </ul>
+            ) : (
+              <p className="rec-empty">沒有待同步的帳 🎉</p>
+            )}
+            {pending.length > 0 && (
+              <button className="rec-sync" onClick={syncNow} disabled={syncing}>
+                {syncing ? '同步中…' : '立即同步'}
+              </button>
+            )}
+          </section>
+
+          <section className="rec-section">
+            <div className="rec-head">
+              <span className="icon-muted">
+                <IconCircleCheck size={17} stroke={2} />
+              </span>
+              已同步
+              <span className="rec-count">{synced.length}</span>
+            </div>
+            {synced.length ? (
+              <ul className="rec-list">
+                {synced.map((e) => (
+                  <Row key={e.id + '-' + e.syncedAt} e={e} />
+                ))}
+              </ul>
+            ) : (
+              <p className="rec-empty">還沒有已同步的帳</p>
+            )}
+          </section>
+
+          <p className="rec-note">
+            只顯示「這支手機」記的帳（本機保留最近 {60} 筆）。要看完整帳目、修改或刪除，請到 Google Sheet。
+          </p>
         </div>
       </div>
     </div>

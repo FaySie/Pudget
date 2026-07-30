@@ -31,6 +31,32 @@ export function getQueueCount(): number {
   return getQueue().length
 }
 
+// ===== 已同步本機記錄（供紀錄頁顯示，僅這支手機、有筆數上限）=====
+const SYNCED_KEY = 'pudget.synced'
+const SYNCED_CAP = 60
+
+export interface SyncedEntry extends QueuedEntry {
+  syncedAt: number
+  duplicate?: boolean
+}
+
+export function getSyncedLog(): SyncedEntry[] {
+  try {
+    const raw = localStorage.getItem(SYNCED_KEY)
+    const parsed = raw ? JSON.parse(raw) : []
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function addSynced(entry: QueuedEntry, duplicate?: boolean): void {
+  const log = getSyncedLog()
+  log.unshift({ ...entry, syncedAt: Date.now(), duplicate })
+  if (log.length > SYNCED_CAP) log.length = SYNCED_CAP
+  localStorage.setItem(SYNCED_KEY, JSON.stringify(log))
+}
+
 /** 把一筆放進佇列（永遠先存本機，確保不掉單） */
 export function enqueue(entry: DraftEntry): QueuedEntry {
   const q = getQueue()
@@ -63,6 +89,7 @@ export async function flushQueue(): Promise<FlushResult> {
       const r = await postEntry(item)
       if (r.ok) {
         removeFromQueue(item.id)
+        addSynced(item, r.duplicate)
         sent++
       } else {
         lastError = r.error
