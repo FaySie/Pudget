@@ -53,6 +53,9 @@ data/*
 *.bak
 *.backup
 
+# === 設計原檔(留本機,不進版控) ===
+*.ai
+
 # === 作業系統 ===
 .DS_Store
 Thumbs.db
