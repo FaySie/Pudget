@@ -6,13 +6,14 @@ interface DateFieldProps {
   onChange: (value: string) => void
 }
 
-/** 日期欄，預設今天可改（native date input） */
+/** 日期欄，預設今天可改；右側「今天」為可點按鈕，一鍵回到今天 */
 export function DateField({ value, onChange }: DateFieldProps) {
-  const isToday = value === todayLocal()
+  const today = todayLocal()
+  const isToday = value === today
   return (
-    <label className="field">
+    <div className="field">
       <span className="field__label">日期</span>
-      <span className="datefield">
+      <div className="datefield">
         <span className="icon-filled datefield__icon">
           <IconCalendar size={20} stroke={1.8} />
         </span>
@@ -20,10 +21,17 @@ export function DateField({ value, onChange }: DateFieldProps) {
           className="datefield__input"
           type="date"
           value={value}
-          onChange={(e) => onChange(e.target.value || todayLocal())}
+          onChange={(e) => onChange(e.target.value || today)}
         />
-        {isToday && <span className="datefield__tag">今天</span>}
-      </span>
-    </label>
+        <button
+          type="button"
+          className={`datefield__today ${isToday ? 'is-current' : ''}`}
+          onClick={() => onChange(today)}
+          aria-label="設為今天"
+        >
+          今天
+        </button>
+      </div>
+    </div>
   )
 }
