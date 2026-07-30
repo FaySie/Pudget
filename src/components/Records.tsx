@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { IconX, IconClock, IconCircleCheck } from '@tabler/icons-react'
+import { IconX, IconClock, IconCircleCheck, IconConfetti } from '@tabler/icons-react'
 import { Mascot } from './Mascot'
 import {
   getQueue,
@@ -99,7 +99,12 @@ export function Records({ onClose, onFlush }: { onClose: () => void; onFlush: ()
                     ))}
                   </ul>
                 ) : (
-                  <p className="rec-empty">沒有待同步的帳 🎉</p>
+                  <p className="rec-empty">
+                    <span className="icon-muted rec-empty__icon">
+                      <IconConfetti size={15} stroke={2} />
+                    </span>
+                    沒有待同步的帳
+                  </p>
                 )}
                 {pending.length > 0 && (
                   <button className="rec-sync" onClick={syncNow} disabled={syncing}>
