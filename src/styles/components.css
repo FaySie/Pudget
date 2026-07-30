@@ -577,6 +577,10 @@
   flex-direction: column;
   gap: 18px;
 }
+/* 不讓子項被 flex 壓縮，否則清單一多，accordion 會被壓成 2px、裁掉內容 */
+.settings-body > * {
+  flex-shrink: 0;
+}
 .settings-copyright {
   text-align: center;
   font-size: 11px;
