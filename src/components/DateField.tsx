@@ -29,7 +29,7 @@ export function DateField({ value, onChange }: DateFieldProps) {
           onClick={() => onChange(today)}
           aria-label="設為今天"
         >
-          今天
+          {isToday ? '今天' : '返回今天'}
         </button>
       </div>
     </div>

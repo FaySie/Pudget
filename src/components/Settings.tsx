@@ -84,7 +84,7 @@ export function Settings({ onClose }: { onClose: () => void }) {
             </ul>
           </div>
 
-          <Accordion title="進階設定（後端連線，通常只設定一次）">
+          <Accordion title="進階設定">
             <label className="field">
               <span className="field__label">後端網址（Apps Script /exec）</span>
               <input
@@ -102,15 +102,15 @@ export function Settings({ onClose }: { onClose: () => void }) {
                 type="password"
                 value={token}
                 onChange={(e) => setTokenValue(e.target.value)}
-                placeholder="與後端 TOKEN 一致"
+                placeholder="Enter your secret TOKEN here"
                 autoComplete="off"
               />
             </label>
           </Accordion>
 
           <div className="settings-copyright">
-            記帳布 Pudget · v{APP_VERSION}
-            <br />© 2026 小布
+            Pudget 記帳布 · v{APP_VERSION}
+            <br />© 2026 Fay Hsieh
           </div>
         </div>
 

@@ -156,7 +156,7 @@ export function RecordScreen() {
             <div className={`settle ${settleFirst ? 'settle--on' : ''}`}>
               <div>
                 <div className="settle__t1">需先結清・代墊</div>
-                <div className="settle__t2">會在表格標成紅色，結清後你們自行刪除</div>
+                <div className="settle__t2">會在表格上標成紅色，結清後自行刪除</div>
               </div>
               <Toggle checked={settleFirst} onChange={setSettleFirst} label="需先結清" />
             </div>

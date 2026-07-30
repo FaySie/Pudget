@@ -28,7 +28,7 @@ export function ItemField({ value, onChange, suggestions }: ItemFieldProps) {
         <input
           className="text-input combobox__input"
           type="text"
-          placeholder="買了什麼？可從常用挑，或直接打"
+          placeholder="買了什麼？"
           value={value}
           onChange={(e) => {
             onChange(e.target.value)
