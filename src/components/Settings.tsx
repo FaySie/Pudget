@@ -1,22 +1,19 @@
 import { useState } from 'react'
 import { IconX, IconTrash, IconPlus } from '@tabler/icons-react'
 import { Button } from './Button'
+import { Accordion } from './Accordion'
 import {
   getBackendUrl,
   setBackendUrl,
   getToken,
   setToken,
-  getMe,
-  setMe,
   getFrequentItems,
   setFrequentItems,
 } from '../lib/config'
-import type { Me } from '../lib/types'
 
 export function Settings({ onClose }: { onClose: () => void }) {
   const [url, setUrl] = useState(getBackendUrl())
   const [token, setTokenValue] = useState(getToken())
-  const [me, setMeValue] = useState<Me>(getMe())
   const [items, setItems] = useState<string[]>(getFrequentItems())
   const [newItem, setNewItem] = useState('')
 
@@ -33,7 +30,6 @@ export function Settings({ onClose }: { onClose: () => void }) {
   function save() {
     setBackendUrl(url.trim())
     setToken(token.trim())
-    setMe(me)
     setFrequentItems(items)
     onClose()
   }
@@ -49,45 +45,6 @@ export function Settings({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="settings-body">
-          <div className="field">
-            <span className="field__label">我是誰</span>
-            <div className="segment segment--two">
-              {(['毛毛', '馥仔'] as Me[]).map((x) => (
-                <button
-                  key={x}
-                  type="button"
-                  className={`payer font-round ${me === x ? 'payer--selected' : ''}`}
-                  onClick={() => setMeValue(x)}
-                >
-                  {x}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <label className="field">
-            <span className="field__label">後端網址（Apps Script /exec）</span>
-            <input
-              className="text-input"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://script.google.com/…/exec"
-              autoComplete="off"
-            />
-          </label>
-
-          <label className="field">
-            <span className="field__label">通關碼</span>
-            <input
-              className="text-input"
-              type="password"
-              value={token}
-              onChange={(e) => setTokenValue(e.target.value)}
-              placeholder="與後端 TOKEN 一致"
-              autoComplete="off"
-            />
-          </label>
-
           <div className="field">
             <span className="field__label">常用項目（記帳時可下拉選）</span>
             <div className="freq-add">
@@ -124,6 +81,30 @@ export function Settings({ onClose }: { onClose: () => void }) {
               {items.length === 0 && <li className="freq-empty">還沒有常用項目</li>}
             </ul>
           </div>
+
+          <Accordion title="進階設定（後端連線，通常只設定一次）">
+            <label className="field">
+              <span className="field__label">後端網址（Apps Script /exec）</span>
+              <input
+                className="text-input"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://script.google.com/…/exec"
+                autoComplete="off"
+              />
+            </label>
+            <label className="field">
+              <span className="field__label">通關碼</span>
+              <input
+                className="text-input"
+                type="password"
+                value={token}
+                onChange={(e) => setTokenValue(e.target.value)}
+                placeholder="與後端 TOKEN 一致"
+                autoComplete="off"
+              />
+            </label>
+          </Accordion>
         </div>
 
         <div className="settings-foot">

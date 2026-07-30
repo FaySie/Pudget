@@ -1,5 +1,13 @@
-import { useState, useRef } from 'react'
-import { IconSettings, IconMoodSmile } from '@tabler/icons-react'
+import { useState, useRef, type ReactNode } from 'react'
+import {
+  IconSettings,
+  IconMoodSmile,
+  IconCircleCheck,
+  IconWifiOff,
+  IconClock,
+  IconKey,
+  IconAlertCircle,
+} from '@tabler/icons-react'
 import { Mascot } from '../components/Mascot'
 import { AmountCard } from '../components/AmountCard'
 import { DateField } from '../components/DateField'
@@ -14,6 +22,11 @@ import { getFrequentItems, getBackendUrl, todayLocal } from '../lib/config'
 import { enqueue, flushQueue, getQueueCount } from '../lib/queue'
 import type { Payer } from '../lib/types'
 
+interface Toast {
+  text: string
+  icon?: ReactNode
+}
+
 export function RecordScreen() {
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(todayLocal())
@@ -22,7 +35,7 @@ export function RecordScreen() {
   const [item, setItem] = useState('')
   const [note, setNote] = useState('')
   const [settleFirst, setSettleFirst] = useState(false)
-  const [toast, setToast] = useState<string | null>(null)
+  const [toast, setToast] = useState<Toast | null>(null)
   const [pending, setPending] = useState(getQueueCount())
   const [settingsOpen, setSettingsOpen] = useState(false)
   const toastTimer = useRef<number | undefined>(undefined)
@@ -30,15 +43,15 @@ export function RecordScreen() {
   const frequent = getFrequentItems()
   const monthLabel = `${Number(date.slice(5, 7))}月`
 
-  function flash(msg: string) {
-    setToast(msg)
+  function flash(text: string, icon?: ReactNode) {
+    setToast({ text, icon })
     window.clearTimeout(toastTimer.current)
     toastTimer.current = window.setTimeout(() => setToast(null), 2200)
   }
 
   async function submit() {
     if (!amount || !category || !item.trim()) {
-      flash('請先填金額、類別、項目')
+      flash('請先填金額、類別、項目', <IconAlertCircle size={15} stroke={2} />)
       return
     }
     const wasSettle = settleFirst
@@ -50,18 +63,21 @@ export function RecordScreen() {
     setPending(getQueueCount())
 
     if (!getBackendUrl()) {
-      flash('⚙️ 請先到設定填後端網址與通關碼')
+      flash('請先到設定填後端網址與通關碼', <IconSettings size={15} stroke={2} />)
       return
     }
     flash('同步中…')
     const { sent, lastError } = await flushQueue()
     setPending(getQueueCount())
     if (sent > 0) {
-      flash(wasSettle ? '🍓 記好囉！已標成紅色待結清' : `🍮 記好囉！已寫進 ${monthLabel}流水帳`)
+      flash(
+        wasSettle ? `已寫進 ${monthLabel}流水帳（紅字待結清）` : `已寫進 ${monthLabel}流水帳`,
+        <IconCircleCheck size={15} stroke={2} />,
+      )
     } else if (lastError === 'invalid_token') {
-      flash('🔑 通關碼不對，請到設定確認')
+      flash('通關碼不對，請到設定確認', <IconKey size={15} stroke={2} />)
     } else {
-      flash('📵 已存手機，連上網路會自動送出')
+      flash('已存手機，連上網路會自動送出', <IconWifiOff size={15} stroke={2} />)
     }
   }
 
@@ -113,25 +129,35 @@ export function RecordScreen() {
             />
             <div className={`settle ${settleFirst ? 'settle--on' : ''}`}>
               <div>
-                <div className="settle__t1">🍓 需先結清・代墊</div>
+                <div className="settle__t1">需先結清・代墊</div>
                 <div className="settle__t2">會在表格標成紅色，結清後你們自行刪除</div>
               </div>
               <Toggle checked={settleFirst} onChange={setSettleFirst} label="需先結清" />
             </div>
           </Accordion>
 
-          <p className="hint">寫進「{monthLabel}」流水帳・來源會標記為 app</p>
+          <p className="hint">寫進「{monthLabel}」流水帳・備註會註明由小布登記</p>
         </div>
       </div>
 
       <div className="bottom">
-        {pending > 0 && <div className="pending">🕓 {pending} 筆待同步</div>}
+        {pending > 0 && (
+          <div className="pending">
+            <IconClock size={14} stroke={2} />
+            {pending} 筆待同步
+          </div>
+        )}
         <div className="submit-wrap">
           <Button onClick={submit}>記一筆</Button>
         </div>
       </div>
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && (
+        <div className="toast">
+          {toast.icon && <span className="toast__icon">{toast.icon}</span>}
+          <span>{toast.text}</span>
+        </div>
+      )}
       {settingsOpen && <Settings onClose={() => setSettingsOpen(false)} />}
     </>
   )

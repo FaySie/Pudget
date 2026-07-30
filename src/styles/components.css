@@ -255,6 +255,58 @@
   background: var(--surface);
 }
 
+/* ===== 項目 combobox ===== */
+.combobox {
+  position: relative;
+}
+.combobox__input {
+  padding-right: 40px;
+}
+.combobox__toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.combobox__list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  max-height: 220px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.combobox__opt {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.combobox__opt:hover,
+.combobox__opt:active {
+  background: var(--surface-2);
+}
+
 /* ===== Accordion ===== */
 .accordion {
   border: 1px solid var(--line);
@@ -430,6 +482,9 @@
   white-space: nowrap;
   animation: toast-in 0.25s ease;
 }
+.toast__icon {
+  display: inline-flex;
+}
 @keyframes toast-in {
   from {
     opacity: 0;
@@ -439,7 +494,10 @@
 
 /* ===== 待同步提示 ===== */
 .pending {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   font-size: 12px;
   font-weight: 700;
   color: var(--ink-mut);

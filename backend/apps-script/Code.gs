@@ -65,7 +65,7 @@ function doPost(e) {
 
     var rowIndex = sheet.getLastRow() + 1;
     var dateStr = m + '/' + d;
-    var note = [body.note, 'app'].filter(function (x) { return x; }).join(' ｜ ');
+    var note = [body.note, '此帳目由小布登記'].filter(function (x) { return x; }).join(' ｜ ');
     var meta = JSON.stringify({
       id: body.id || '',
       source: 'app',
@@ -119,9 +119,18 @@ function hasId(sheet, id) {
   return false;
 }
 
+/** 找蛙太收支簿分頁（分頁名可能含 emoji 前綴，如「🐸 蛙太收支簿」，用包含比對） */
+function findWalletSheet(ss) {
+  var sheets = ss.getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].getName().indexOf(CONFIG.WALLET_SHEET) !== -1) return sheets[i];
+  }
+  return null;
+}
+
 /** 蛙太收支簿：B=日期 C=項目 D=收入 E=支出 F=餘額(公式) */
 function appendWallet(ss, dateStr, item, amount) {
-  var sheet = ss.getSheetByName(CONFIG.WALLET_SHEET);
+  var sheet = findWalletSheet(ss);
   if (!sheet) return null;
   var row = sheet.getLastRow() + 1;
   sheet.getRange(row, 2, 1, 4).setValues([[dateStr, item, '', amount]]);
