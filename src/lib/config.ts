@@ -6,7 +6,25 @@ const KEY = {
   frequentItems: 'pudget.frequentItems',
   backendUrl: 'pudget.backendUrl',
   token: 'pudget.token',
+  theme: 'pudget.theme',
 } as const
+
+export type Theme = 'light' | 'dark' | 'system'
+
+export function getTheme(): Theme {
+  const t = localStorage.getItem(KEY.theme)
+  return t === 'light' || t === 'dark' ? t : 'system'
+}
+export function setTheme(t: Theme): void {
+  localStorage.setItem(KEY.theme, t)
+  applyTheme(t)
+}
+/** 套用主題:light/dark 加 data-theme;system 移除，交回系統偏好 */
+export function applyTheme(t: Theme = getTheme()): void {
+  const root = document.documentElement
+  if (t === 'system') root.removeAttribute('data-theme')
+  else root.setAttribute('data-theme', t)
+}
 
 /** 首次啟用的預設常用項目（可在設定頁增刪） */
 const DEFAULT_FREQUENT = ['全聯', '萬家福', '市場青菜', '95汽油', '水返腳']

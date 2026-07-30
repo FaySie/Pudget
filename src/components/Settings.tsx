@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { IconX, IconTrash, IconPlus } from '@tabler/icons-react'
+import {
+  IconX,
+  IconTrash,
+  IconPlus,
+  IconSun,
+  IconMoon,
+  IconDeviceDesktop,
+  type Icon as TablerIcon,
+} from '@tabler/icons-react'
 import { Button } from './Button'
 import { Accordion } from './Accordion'
 import {
@@ -9,7 +17,16 @@ import {
   setToken,
   getFrequentItems,
   setFrequentItems,
+  getTheme,
+  setTheme,
+  type Theme,
 } from '../lib/config'
+
+const THEME_OPTIONS: { value: Theme; label: string; Icon: TablerIcon }[] = [
+  { value: 'light', label: '淺色', Icon: IconSun },
+  { value: 'dark', label: '深色', Icon: IconMoon },
+  { value: 'system', label: '跟隨系統', Icon: IconDeviceDesktop },
+]
 
 const APP_VERSION = '0.1.0'
 
@@ -18,6 +35,12 @@ export function Settings({ onClose }: { onClose: () => void }) {
   const [token, setTokenValue] = useState(getToken())
   const [items, setItems] = useState<string[]>(getFrequentItems())
   const [newItem, setNewItem] = useState('')
+  const [theme, setThemeState] = useState<Theme>(getTheme())
+
+  function chooseTheme(t: Theme) {
+    setThemeState(t)
+    setTheme(t) // 立即套用並儲存
+  }
 
   function addItem() {
     const v = newItem.trim()
@@ -47,6 +70,24 @@ export function Settings({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="settings-body">
+          <div className="field">
+            <span className="field__label">外觀</span>
+            <div className="segment">
+              {THEME_OPTIONS.map(({ value, label, Icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={`theme-opt ${theme === value ? 'is-active' : ''}`}
+                  aria-pressed={theme === value}
+                  onClick={() => chooseTheme(value)}
+                >
+                  <Icon size={19} stroke={1.8} />
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="field">
             <span className="field__label">常用項目（記帳時可下拉選）</span>
             <div className="freq-add">
