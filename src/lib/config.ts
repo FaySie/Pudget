@@ -9,7 +9,7 @@ const KEY = {
 } as const
 
 /** 首次啟用的預設常用項目（可在設定頁增刪） */
-const DEFAULT_FREQUENT = ['全聯', '麥當勞早餐', 'Costco', '全家', '7-11']
+const DEFAULT_FREQUENT = ['全聯', '萬家福', '市場青菜', '95汽油', '水返腳']
 
 export function getMe(): Me {
   return (localStorage.getItem(KEY.me) as Me) || '毛毛'

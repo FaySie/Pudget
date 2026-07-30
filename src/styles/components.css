@@ -480,10 +480,15 @@
   padding: 10px 18px;
   border-radius: var(--radius-pill);
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  line-height: 1;
   animation: toast-in 0.25s ease;
 }
 .toast__icon {
   display: inline-flex;
+  align-items: center;
 }
 @keyframes toast-in {
   from {
@@ -543,11 +548,20 @@
 }
 .settings-body {
   flex: 1 1 auto;
+  min-height: 0; /* 讓 flex 子項可捲動（否則內容多會撐開、卡住） */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 8px 18px 18px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+.settings-copyright {
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--ink-mut);
+  padding: 6px 0 4px;
 }
 .segment--two {
   grid-template-columns: repeat(2, 1fr);

@@ -11,6 +11,8 @@ import {
   setFrequentItems,
 } from '../lib/config'
 
+const APP_VERSION = '0.1.0'
+
 export function Settings({ onClose }: { onClose: () => void }) {
   const [url, setUrl] = useState(getBackendUrl())
   const [token, setTokenValue] = useState(getToken())
@@ -105,6 +107,11 @@ export function Settings({ onClose }: { onClose: () => void }) {
               />
             </label>
           </Accordion>
+
+          <div className="settings-copyright">
+            記帳布 Pudget · v{APP_VERSION}
+            <br />© 2026 小布
+          </div>
         </div>
 
         <div className="settings-foot">

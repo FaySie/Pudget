@@ -20,7 +20,7 @@ export function DateField({ value, onChange }: DateFieldProps) {
           className="datefield__input"
           type="date"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value || todayLocal())}
         />
         {isToday && <span className="datefield__tag">今天</span>}
       </span>
