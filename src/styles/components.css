@@ -759,6 +759,28 @@
   color: var(--ink-mut);
   margin: 4px 0 0;
 }
+.rec-empty-state {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: 24px 20px;
+}
+.rec-empty-state__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.rec-empty-state__sub {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-mut);
+}
 
 /* ===== 佔位頁 ===== */
 .placeholder {

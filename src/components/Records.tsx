@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { IconX, IconClock, IconCircleCheck } from '@tabler/icons-react'
+import { Mascot } from './Mascot'
 import {
   getQueue,
   getSyncedLog,
@@ -27,7 +28,7 @@ function Row({ e }: { e: QueuedEntry | SyncedEntry }) {
       <div className="rec-row__main">
         <div className="rec-row__item">
           {e.item}
-          {e.settleFirst && <span className="rec-row__flag">紅字</span>}
+          {e.settleFirst && <span className="rec-row__flag">代墊</span>}
         </div>
         <div className="rec-row__meta">
           {fmtDate(e.date)}・{e.payer}・{e.category}
@@ -58,6 +59,8 @@ export function Records({ onClose, onFlush }: { onClose: () => void; onFlush: ()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const isEmpty = pending.length === 0 && synced.length === 0
+
   return (
     <div className="settings-overlay" role="dialog" aria-label="紀錄">
       <div className="settings-sheet">
@@ -69,52 +72,66 @@ export function Records({ onClose, onFlush }: { onClose: () => void; onFlush: ()
         </div>
 
         <div className="settings-body">
-          <section className="rec-section">
-            <div className="rec-head">
-              <span className="icon-muted">
-                <IconClock size={17} stroke={2} />
-              </span>
-              待同步
-              <span className="rec-count">{pending.length}</span>
+          {isEmpty ? (
+            <div className="rec-empty-state">
+              <Mascot size={76} />
+              <p className="rec-empty-state__title">還沒有任何紀錄</p>
+              <p className="rec-empty-state__sub">
+                記一筆之後，這支手機記的帳就會出現在這裡。
+                <br />
+                完整帳目請看 Google Sheet。
+              </p>
             </div>
-            {pending.length ? (
-              <ul className="rec-list">
-                {pending.map((e) => (
-                  <Row key={e.id} e={e} />
-                ))}
-              </ul>
-            ) : (
-              <p className="rec-empty">沒有待同步的帳 🎉</p>
-            )}
-            {pending.length > 0 && (
-              <button className="rec-sync" onClick={syncNow} disabled={syncing}>
-                {syncing ? '同步中…' : '立即同步'}
-              </button>
-            )}
-          </section>
+          ) : (
+            <>
+              <section className="rec-section">
+                <div className="rec-head">
+                  <span className="icon-muted">
+                    <IconClock size={17} stroke={2} />
+                  </span>
+                  待同步
+                  <span className="rec-count">{pending.length}</span>
+                </div>
+                {pending.length ? (
+                  <ul className="rec-list">
+                    {pending.map((e) => (
+                      <Row key={e.id} e={e} />
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="rec-empty">沒有待同步的帳 🎉</p>
+                )}
+                {pending.length > 0 && (
+                  <button className="rec-sync" onClick={syncNow} disabled={syncing}>
+                    {syncing ? '同步中…' : '立即同步'}
+                  </button>
+                )}
+              </section>
 
-          <section className="rec-section">
-            <div className="rec-head">
-              <span className="icon-muted">
-                <IconCircleCheck size={17} stroke={2} />
-              </span>
-              已同步
-              <span className="rec-count">{synced.length}</span>
-            </div>
-            {synced.length ? (
-              <ul className="rec-list">
-                {synced.map((e) => (
-                  <Row key={e.id + '-' + e.syncedAt} e={e} />
-                ))}
-              </ul>
-            ) : (
-              <p className="rec-empty">還沒有已同步的帳</p>
-            )}
-          </section>
+              <section className="rec-section">
+                <div className="rec-head">
+                  <span className="icon-muted">
+                    <IconCircleCheck size={17} stroke={2} />
+                  </span>
+                  已同步
+                  <span className="rec-count">{synced.length}</span>
+                </div>
+                {synced.length ? (
+                  <ul className="rec-list">
+                    {synced.map((e) => (
+                      <Row key={e.id + '-' + e.syncedAt} e={e} />
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="rec-empty">還沒有已同步的帳</p>
+                )}
+              </section>
 
-          <p className="rec-note">
-            只顯示「這支手機」記的帳（本機保留最近 {60} 筆）。要看完整帳目、修改或刪除，請到 Google Sheet。
-          </p>
+              <p className="rec-note">
+                只顯示「這支手機」記的帳（本機保留最近 60 筆）。要看完整帳目、修改或刪除，請到 Google Sheet。
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
