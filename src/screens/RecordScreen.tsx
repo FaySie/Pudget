@@ -9,8 +9,10 @@ import { ItemField } from '../components/ItemField'
 import { Accordion } from '../components/Accordion'
 import { Toggle } from '../components/Toggle'
 import { Button } from '../components/Button'
-import { getFrequentItems, todayLocal } from '../lib/config'
-import type { DraftEntry, Payer } from '../lib/types'
+import { Settings } from '../components/Settings'
+import { getFrequentItems, getBackendUrl, todayLocal } from '../lib/config'
+import { enqueue, flushQueue, getQueueCount } from '../lib/queue'
+import type { Payer } from '../lib/types'
 
 export function RecordScreen() {
   const [amount, setAmount] = useState('')
@@ -21,6 +23,8 @@ export function RecordScreen() {
   const [note, setNote] = useState('')
   const [settleFirst, setSettleFirst] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
+  const [pending, setPending] = useState(getQueueCount())
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const toastTimer = useRef<number | undefined>(undefined)
 
   const frequent = getFrequentItems()
@@ -29,22 +33,36 @@ export function RecordScreen() {
   function flash(msg: string) {
     setToast(msg)
     window.clearTimeout(toastTimer.current)
-    toastTimer.current = window.setTimeout(() => setToast(null), 2000)
+    toastTimer.current = window.setTimeout(() => setToast(null), 2200)
   }
 
-  function submit() {
+  async function submit() {
     if (!amount || !category || !item.trim()) {
       flash('請先填金額、類別、項目')
       return
     }
-    const draft: DraftEntry = { date, category, item: item.trim(), amount, payer, note, settleFirst }
-    // TODO: 送到 Apps Script 後端（離線則進佇列）
-    console.log('draft entry', draft)
-    flash(settleFirst ? '🍓 記好囉！已標成紅色待結清' : `🍮 記好囉！已寫進 ${monthLabel}流水帳`)
+    const wasSettle = settleFirst
+    enqueue({ date, category, item: item.trim(), amount, payer, note, settleFirst })
     setAmount('')
     setItem('')
     setNote('')
     setSettleFirst(false)
+    setPending(getQueueCount())
+
+    if (!getBackendUrl()) {
+      flash('⚙️ 請先到設定填後端網址與通關碼')
+      return
+    }
+    flash('同步中…')
+    const { sent, lastError } = await flushQueue()
+    setPending(getQueueCount())
+    if (sent > 0) {
+      flash(wasSettle ? '🍓 記好囉！已標成紅色待結清' : `🍮 記好囉！已寫進 ${monthLabel}流水帳`)
+    } else if (lastError === 'invalid_token') {
+      flash('🔑 通關碼不對，請到設定確認')
+    } else {
+      flash('📵 已存手機，連上網路會自動送出')
+    }
   }
 
   return (
@@ -59,7 +77,7 @@ export function RecordScreen() {
           type="button"
           className="header__gear icon-muted"
           aria-label="設定"
-          onClick={() => flash('設定頁開發中 🔧')}
+          onClick={() => setSettingsOpen(true)}
         >
           <IconSettings size={22} stroke={1.8} />
         </button>
@@ -107,12 +125,14 @@ export function RecordScreen() {
       </div>
 
       <div className="bottom">
+        {pending > 0 && <div className="pending">🕓 {pending} 筆待同步</div>}
         <div className="submit-wrap">
           <Button onClick={submit}>記一筆</Button>
         </div>
       </div>
 
       {toast && <div className="toast">{toast}</div>}
+      {settingsOpen && <Settings onClose={() => setSettingsOpen(false)} />}
     </>
   )
 }
