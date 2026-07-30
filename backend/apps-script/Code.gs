@@ -20,8 +20,11 @@ var CONFIG = {
   bookName: function (year) { return year + '記帳本'; },
 };
 
+// 改後端程式時把 VERSION 加一，重新部署後打開 /exec 就能確認新版是否真的生效
+var VERSION = 'v2';
+
 function doGet() {
-  return json({ ok: true, service: 'pudget', ts: new Date().toISOString() });
+  return json({ ok: true, service: 'pudget', version: VERSION, ts: new Date().toISOString() });
 }
 
 function doPost(e) {
