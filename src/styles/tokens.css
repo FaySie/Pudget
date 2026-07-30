@@ -12,6 +12,7 @@
   --yellow-soft: #fff6ce;
   --berry: #ef4444;
   --berry-bg: #feecec;
+  --good: #22c55e;
 
   /* icon 專用（對齊 Figma icon/stroke、icon/fill） */
   --icon-stroke: var(--ink);
@@ -44,5 +45,6 @@
     --yellow-soft: #3a331b;
     --berry: #ff6b6b;
     --berry-bg: #3a2320;
+    --good: #4ade80;
   }
 }

@@ -10,17 +10,18 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['pudding.svg'],
+      includeAssets: ['pudget_favicon.png', 'apple-touch-icon.png'],
       manifest: {
-        name: '記帳布 Pudget',
-        short_name: '記帳布',
+        name: 'Pudget 記帳布',
+        short_name: 'Pudget',
         description: '隨手記一筆，自動寫進 Google Sheet 記帳本',
         theme_color: '#FFDA1F',
         background_color: '#EEF0F3',
         display: 'standalone',
         orientation: 'portrait',
         icons: [
-          { src: 'pudding.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
         ],
       },
       devOptions: { enabled: false },

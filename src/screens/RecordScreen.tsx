@@ -1,10 +1,10 @@
-import { useState, useRef, type ReactNode } from 'react'
+import { useState, useRef, useEffect, type ReactNode } from 'react'
 import {
   IconSettings,
+  IconHistory,
   IconMoodSmile,
   IconCircleCheck,
   IconWifiOff,
-  IconClock,
   IconKey,
   IconAlertCircle,
 } from '@tabler/icons-react'
@@ -18,6 +18,7 @@ import { Accordion } from '../components/Accordion'
 import { Toggle } from '../components/Toggle'
 import { Button } from '../components/Button'
 import { Settings } from '../components/Settings'
+import { Records } from '../components/Records'
 import { getFrequentItems, getBackendUrl, todayLocal } from '../lib/config'
 import { enqueue, flushQueue, getQueueCount } from '../lib/queue'
 import type { Payer } from '../lib/types'
@@ -38,10 +39,22 @@ export function RecordScreen() {
   const [toast, setToast] = useState<Toast | null>(null)
   const [pending, setPending] = useState(getQueueCount())
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [recordsOpen, setRecordsOpen] = useState(false)
   const toastTimer = useRef<number | undefined>(undefined)
 
   const frequent = getFrequentItems()
   const monthLabel = `${Number(date.slice(5, 7))}月`
+
+  // 開啟 App / 重新連上網路就補送離線佇列，並更新同步燈
+  useEffect(() => {
+    const sync = async () => {
+      await flushQueue()
+      setPending(getQueueCount())
+    }
+    sync()
+    window.addEventListener('online', sync)
+    return () => window.removeEventListener('online', sync)
+  }, [])
 
   function flash(text: string, icon?: ReactNode) {
     setToast({ text, icon })
@@ -84,19 +97,32 @@ export function RecordScreen() {
   return (
     <>
       <header className="header">
-        <Mascot />
+        <Mascot size={36} />
         <div className="header__title">
-          <span className="header__name font-round">記帳布</span>
+          <span className="header__name font-round">Pudget 記帳布</span>
           <span className="header__sub">隨手記一筆</span>
         </div>
-        <button
-          type="button"
-          className="header__gear icon-muted"
-          aria-label="設定"
-          onClick={() => setSettingsOpen(true)}
-        >
-          <IconSettings size={22} stroke={1.8} />
-        </button>
+        <div className="header__actions">
+          <button
+            type="button"
+            className="header__icon icon-muted"
+            aria-label={pending > 0 ? `紀錄（${pending} 筆待同步）` : '紀錄（已同步）'}
+            onClick={() => setRecordsOpen(true)}
+          >
+            <IconHistory size={22} stroke={1.8} />
+            <span
+              className={`status-dot ${pending > 0 ? 'status-dot--pending' : 'status-dot--synced'}`}
+            />
+          </button>
+          <button
+            type="button"
+            className="header__icon icon-muted"
+            aria-label="設定"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <IconSettings size={22} stroke={1.8} />
+          </button>
+        </div>
       </header>
 
       <div className="scroll">
@@ -141,12 +167,6 @@ export function RecordScreen() {
       </div>
 
       <div className="bottom">
-        {pending > 0 && (
-          <div className="pending">
-            <IconClock size={14} stroke={2} />
-            {pending} 筆待同步
-          </div>
-        )}
         <div className="submit-wrap">
           <Button onClick={submit}>記一筆</Button>
         </div>
@@ -159,6 +179,7 @@ export function RecordScreen() {
         </div>
       )}
       {settingsOpen && <Settings onClose={() => setSettingsOpen(false)} />}
+      {recordsOpen && <Records onClose={() => setRecordsOpen(false)} />}
     </>
   )
 }

@@ -35,16 +35,37 @@
   color: var(--ink-mut);
   margin-top: 2px;
 }
-.header__gear {
+.header__actions {
   margin-left: auto;
-  width: 32px;
-  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.header__icon {
+  position: relative;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+}
+.status-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+}
+.status-dot--pending {
+  background: var(--berry);
+}
+.status-dot--synced {
+  background: var(--good);
 }
 
 /* ===== 捲動區 ===== */
@@ -629,6 +650,10 @@
   gap: 8px;
   text-align: center;
   color: var(--ink-mut);
+}
+.placeholder__icon {
+  display: inline-flex;
+  margin-bottom: 2px;
 }
 .placeholder__title {
   font-size: 16px;
