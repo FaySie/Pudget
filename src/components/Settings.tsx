@@ -3,7 +3,7 @@ import {
   IconX,
   IconTrash,
   IconPlus,
-  IconSun,
+  IconBrightness2,
   IconMoon,
   IconDeviceDesktop,
   type Icon as TablerIcon,
@@ -23,7 +23,7 @@ import {
 } from '../lib/config'
 
 const THEME_OPTIONS: { value: Theme; label: string; Icon: TablerIcon }[] = [
-  { value: 'light', label: '淺色', Icon: IconSun },
+  { value: 'light', label: '淺色', Icon: IconBrightness2 },
   { value: 'dark', label: '深色', Icon: IconMoon },
   { value: 'system', label: '跟隨系統', Icon: IconDeviceDesktop },
 ]

@@ -52,6 +52,7 @@ export function getSyncedLog(): SyncedEntry[] {
 
 function addSynced(entry: QueuedEntry, duplicate?: boolean): void {
   const log = getSyncedLog()
+  if (log.some((e) => e.id === entry.id)) return // 依 id 去重，避免重複寫入已同步清單
   log.unshift({ ...entry, syncedAt: Date.now(), duplicate })
   if (log.length > SYNCED_CAP) log.length = SYNCED_CAP
   localStorage.setItem(SYNCED_KEY, JSON.stringify(log))
@@ -80,7 +81,20 @@ export interface FlushResult {
  * 嘗試把佇列送出。成功（含 duplicate）就從佇列移除；
  * 遇到網路錯誤或設定問題就停下、保留剩餘的，等下次再送。
  */
+let flushing = false
+
 export async function flushQueue(): Promise<FlushResult> {
+  // 加鎖:避免多處同時 flush 同一筆(會造成重複進已同步清單)
+  if (flushing) return { sent: 0, remaining: getQueueCount() }
+  flushing = true
+  try {
+    return await doFlush()
+  } finally {
+    flushing = false
+  }
+}
+
+async function doFlush(): Promise<FlushResult> {
   const q = getQueue()
   let sent = 0
   let lastError: string | undefined

@@ -68,6 +68,26 @@
   background: var(--good);
 }
 
+/* 雙層 icon:下層填色、上層線條（含內部細節） */
+.filled-icon {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  flex: none;
+}
+.filled-icon svg {
+  position: absolute;
+  inset: 0;
+}
+.filled-icon .fi-fill {
+  fill: var(--icon-fill);
+  stroke-width: 0;
+}
+.filled-icon .fi-line {
+  fill: none;
+  stroke: var(--icon-stroke);
+}
+
 /* ===== 捲動區 ===== */
 .scroll {
   flex: 1 1 auto;
@@ -108,7 +128,7 @@
   font-size: 52px;
   line-height: 1;
   letter-spacing: 0;
-  color: #1b1d21;
+  color: var(--on-yellow);
   background: transparent;
   border: none;
   outline: none;
@@ -176,7 +196,7 @@
   cursor: pointer;
   border: 1px solid var(--yellow);
   background: var(--yellow);
-  color: #1b1d21;
+  color: var(--on-yellow);
 }
 /* 非今天時:外框樣式，提示「點一下回到今天」 */
 .datefield__today:not(.is-current) {
@@ -448,7 +468,7 @@
   flex: none;
 }
 .submit-wrap {
-  padding: 10px 16px;
+  padding: 4px 0 0;
 }
 .btn {
   width: 100%;
@@ -466,7 +486,7 @@
 }
 .btn--primary {
   background: var(--yellow);
-  color: #1b1d21;
+  color: var(--on-yellow);
 }
 .btn:active {
   transform: translateY(1px) scale(0.99);
@@ -641,7 +661,7 @@
   place-items: center;
   border: 1px solid var(--yellow);
   background: var(--yellow);
-  color: #1b1d21;
+  color: var(--on-yellow);
   border-radius: var(--radius-md);
   cursor: pointer;
 }
@@ -773,7 +793,7 @@
   align-self: flex-start;
   font-size: 13px;
   font-weight: 800;
-  color: #1b1d21;
+  color: var(--on-yellow);
   background: var(--yellow);
   border: none;
   border-radius: var(--radius-sm);

@@ -9,6 +9,7 @@ import {
   type SyncedEntry,
 } from '../lib/queue'
 import { CATEGORIES } from '../data/categories'
+import { FilledIcon } from './FilledIcon'
 
 function fmtDate(d: string): string {
   const p = d.split('-')
@@ -20,11 +21,7 @@ function Row({ e }: { e: QueuedEntry | SyncedEntry }) {
   const Icon = cat?.Icon
   return (
     <li className="rec-row">
-      {Icon && (
-        <span className="rec-row__icon icon-filled">
-          <Icon size={20} stroke={1.5} />
-        </span>
-      )}
+      {Icon && <FilledIcon icon={Icon} size={20} className="rec-row__icon" />}
       <div className="rec-row__main">
         <div className="rec-row__item">
           {e.item}

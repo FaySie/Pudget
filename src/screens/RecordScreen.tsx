@@ -19,6 +19,7 @@ import { Toggle } from '../components/Toggle'
 import { Button } from '../components/Button'
 import { Settings } from '../components/Settings'
 import { Records } from '../components/Records'
+import { FilledIcon } from '../components/FilledIcon'
 import { getFrequentItems, getBackendUrl, todayLocal } from '../lib/config'
 import { enqueue, flushQueue, getQueueCount } from '../lib/queue'
 import type { Payer } from '../lib/types'
@@ -125,18 +126,16 @@ export function RecordScreen() {
         </div>
       </header>
 
-      <div className="scroll">
-        <AmountCard value={amount} onChange={setAmount} />
+      <AmountCard value={amount} onChange={setAmount} />
 
+      <div className="scroll">
         <div className="content">
           <DateField value={date} onChange={setDate} />
 
           <PayerSegment value={payer} onChange={setPayer} />
           {payer === '共用錢包' && (
             <div className="wallet-note">
-              <span className="icon-filled">
-                <IconMoodSmile size={16} stroke={1.5} />
-              </span>
+              <FilledIcon icon={IconMoodSmile} size={16} />
               也會自動記一筆「支出」到蛙太錢包
             </div>
           )}
@@ -163,12 +162,10 @@ export function RecordScreen() {
           </Accordion>
 
           <p className="hint">寫進「{monthLabel}」流水帳・備註會註明由小布登記</p>
-        </div>
-      </div>
 
-      <div className="bottom">
-        <div className="submit-wrap">
-          <Button onClick={submit}>記一筆</Button>
+          <div className="submit-wrap">
+            <Button onClick={submit}>記一筆</Button>
+          </div>
         </div>
       </div>
 

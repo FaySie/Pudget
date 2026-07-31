@@ -1,4 +1,5 @@
 import { CATEGORIES } from '../data/categories'
+import { FilledIcon } from './FilledIcon'
 
 interface CategoryGridProps {
   value: string | null
@@ -21,9 +22,7 @@ export function CategoryGrid({ value, onChange }: CategoryGridProps) {
               aria-pressed={selected}
               onClick={() => onChange(label)}
             >
-              <span className="icon-filled chip__icon">
-                <Icon size={24} stroke={1.5} />
-              </span>
+              <FilledIcon icon={Icon} size={24} className="chip__icon" />
               <span className="chip__label">{label}</span>
             </button>
           )

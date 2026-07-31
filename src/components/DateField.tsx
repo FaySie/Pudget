@@ -1,4 +1,5 @@
 import { IconCalendar } from '@tabler/icons-react'
+import { FilledIcon } from './FilledIcon'
 import { todayLocal } from '../lib/config'
 
 interface DateFieldProps {
@@ -14,9 +15,7 @@ export function DateField({ value, onChange }: DateFieldProps) {
     <div className="field">
       <span className="field__label">日期</span>
       <div className="datefield">
-        <span className="icon-filled datefield__icon">
-          <IconCalendar size={20} stroke={1.5} />
-        </span>
+        <FilledIcon icon={IconCalendar} size={20} className="datefield__icon" />
         <input
           className="datefield__input"
           type="date"

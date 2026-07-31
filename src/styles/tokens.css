@@ -13,6 +13,8 @@
   --berry: #ef4444;
   --berry-bg: #feecec;
   --good: #22c55e;
+  /* 黃底上的文字/圖示色:兩個主題都固定深色（黃色與主題無關） */
+  --on-yellow: #1b1d21;
 
   /* icon 專用（對齊 Figma icon/stroke、icon/fill） */
   --icon-stroke: var(--ink);
