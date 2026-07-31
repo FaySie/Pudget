@@ -65,7 +65,7 @@ export function Settings({ onClose }: { onClose: () => void }) {
         <div className="settings-head">
           <span className="settings-title font-round">設定</span>
           <button className="settings-close icon-muted" onClick={onClose} aria-label="關閉">
-            <IconX size={22} stroke={1.8} />
+            <IconX size={22} stroke={1.5} />
           </button>
         </div>
 
@@ -81,7 +81,7 @@ export function Settings({ onClose }: { onClose: () => void }) {
                   aria-pressed={theme === value}
                   onClick={() => chooseTheme(value)}
                 >
-                  <Icon size={19} stroke={1.8} />
+                  <Icon size={19} stroke={1.5} />
                   <span>{label}</span>
                 </button>
               ))}
@@ -117,7 +117,7 @@ export function Settings({ onClose }: { onClose: () => void }) {
                     onClick={() => removeItem(it)}
                     aria-label={`刪除 ${it}`}
                   >
-                    <IconTrash size={18} stroke={1.8} />
+                    <IconTrash size={18} stroke={1.5} />
                   </button>
                 </li>
               ))}

@@ -15,7 +15,7 @@ export function DateField({ value, onChange }: DateFieldProps) {
       <span className="field__label">日期</span>
       <div className="datefield">
         <span className="icon-filled datefield__icon">
-          <IconCalendar size={20} stroke={1.8} />
+          <IconCalendar size={20} stroke={1.5} />
         </span>
         <input
           className="datefield__input"

@@ -25,9 +25,9 @@
   --radius-pill: 999px;
 
   /* 字型：優先用 iOS/Mac 內建圓體，零下載、離線可用 */
-  --font-round: "Hiragino Maru Gothic ProN", ui-rounded, "SF Pro Rounded",
+  --font-round: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN",
     "M PLUS Rounded 1c", "Noto Sans TC", system-ui, sans-serif;
-  --font-body: "PingFang TC", "Noto Sans TC", system-ui, -apple-system, sans-serif;
+  --font-body: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "PingFang TC", "Noto Sans TC", system-ui, -apple-system, sans-serif;
 
   color-scheme: light dark;
 }
@@ -41,7 +41,7 @@
     --ink-mut: #969ca5;
     --line: #2e3238;
     --yellow: #ffda1f;
-    --yellow-fill: #d8b633;
+    --yellow-fill: transparent;
     --yellow-soft: #3a331b;
     --berry: #ff6b6b;
     --berry-bg: #3a2320;
@@ -74,7 +74,7 @@
   --ink-mut: #969ca5;
   --line: #2e3238;
   --yellow: #ffda1f;
-  --yellow-fill: #d8b633;
+  --yellow-fill: transparent;
   --yellow-soft: #3a331b;
   --berry: #ff6b6b;
   --berry-bg: #3a2320;

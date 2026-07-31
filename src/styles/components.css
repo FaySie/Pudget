@@ -16,8 +16,8 @@
   flex: none;
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 18px 20px 12px;
+  gap: 12px;
+  padding: 16px 20px;
   padding-top: max(18px, env(safe-area-inset-top));
 }
 .header__title {
@@ -27,7 +27,7 @@
 }
 .header__name {
   font-weight: 800;
-  font-size: 21px;
+  font-size: 18px;
   color: var(--ink);
 }
 .header__sub {
@@ -39,7 +39,7 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
 }
 .header__icon {
   position: relative;
@@ -77,10 +77,10 @@
 
 /* ===== 金額卡 ===== */
 .amount-card {
-  margin: 6px 16px 0;
+  margin: 0 16px;
   background: var(--yellow);
   border-radius: var(--radius-lg);
-  padding: 15px 20px 17px;
+  padding: 15px 20px 8px;
 }
 .amount-card__label {
   font-size: 12.5px;
@@ -159,8 +159,12 @@
   outline: none;
   background: transparent;
   font-size: 15px;
+  font-weight: 500;
   color: var(--ink);
   letter-spacing: 0.02em;
+}
+.datefield__input::-webkit-date-and-time-value {
+  text-align: left;
 }
 .datefield__today {
   flex: none;
@@ -188,12 +192,12 @@
   gap: 8px;
 }
 .payer {
-  padding: 15px 6px;
+  padding: 12px 6px;
   border: 1px solid var(--line);
   background: var(--surface-2);
   color: var(--ink);
   border-radius: var(--radius-sm);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
   transition: border-color 0.12s, background 0.12s;
@@ -435,6 +439,7 @@
 .hint {
   margin: 0;
   font-size: 11px;
+  text-align: center;
   color: var(--ink-mut);
 }
 
@@ -461,7 +466,7 @@
 }
 .btn--primary {
   background: var(--yellow);
-  color: var(--ink);
+  color: #1b1d21;
 }
 .btn:active {
   transform: translateY(1px) scale(0.99);
@@ -634,9 +639,9 @@
   height: 46px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--line);
+  border: 1px solid var(--yellow);
   background: var(--yellow);
-  color: var(--ink);
+  color: #1b1d21;
   border-radius: var(--radius-md);
   cursor: pointer;
 }

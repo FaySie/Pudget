@@ -21,7 +21,7 @@ body {
 /* 圓體中文補字距（對齊 Figma 的 0.1em） */
 .font-round {
   font-family: var(--font-round);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
 }
 
 button {

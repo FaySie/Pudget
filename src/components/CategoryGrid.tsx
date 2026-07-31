@@ -22,7 +22,7 @@ export function CategoryGrid({ value, onChange }: CategoryGridProps) {
               onClick={() => onChange(label)}
             >
               <span className="icon-filled chip__icon">
-                <Icon size={24} stroke={1.7} />
+                <Icon size={24} stroke={1.5} />
               </span>
               <span className="chip__label">{label}</span>
             </button>

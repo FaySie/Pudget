@@ -22,7 +22,7 @@ function Row({ e }: { e: QueuedEntry | SyncedEntry }) {
     <li className="rec-row">
       {Icon && (
         <span className="rec-row__icon icon-filled">
-          <Icon size={20} stroke={1.7} />
+          <Icon size={20} stroke={1.5} />
         </span>
       )}
       <div className="rec-row__main">
@@ -67,7 +67,7 @@ export function Records({ onClose, onFlush }: { onClose: () => void; onFlush: ()
         <div className="settings-head">
           <span className="settings-title font-round">紀錄</span>
           <button className="settings-close icon-muted" onClick={onClose} aria-label="關閉">
-            <IconX size={22} stroke={1.8} />
+            <IconX size={22} stroke={1.5} />
           </button>
         </div>
 
@@ -100,10 +100,10 @@ export function Records({ onClose, onFlush }: { onClose: () => void; onFlush: ()
                   </ul>
                 ) : (
                   <p className="rec-empty">
+                    沒有待同步的帳
                     <span className="icon-muted rec-empty__icon">
                       <IconConfetti size={15} stroke={2} />
                     </span>
-                    沒有待同步的帳
                   </p>
                 )}
                 {pending.length > 0 && (

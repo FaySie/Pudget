@@ -109,7 +109,7 @@ export function RecordScreen() {
             aria-label={pending > 0 ? `紀錄（${pending} 筆待同步）` : '紀錄（已同步）'}
             onClick={() => setRecordsOpen(true)}
           >
-            <IconHistory size={22} stroke={1.8} />
+            <IconHistory size={22} stroke={1.5} />
             <span
               className={`status-dot ${pending > 0 ? 'status-dot--pending' : 'status-dot--synced'}`}
             />
@@ -120,7 +120,7 @@ export function RecordScreen() {
             aria-label="設定"
             onClick={() => setSettingsOpen(true)}
           >
-            <IconSettings size={22} stroke={1.8} />
+            <IconSettings size={22} stroke={1.5} />
           </button>
         </div>
       </header>
@@ -135,7 +135,7 @@ export function RecordScreen() {
           {payer === '共用錢包' && (
             <div className="wallet-note">
               <span className="icon-filled">
-                <IconMoodSmile size={16} stroke={1.7} />
+                <IconMoodSmile size={16} stroke={1.5} />
               </span>
               也會自動記一筆「支出」到蛙太錢包
             </div>
@@ -145,7 +145,7 @@ export function RecordScreen() {
 
           <ItemField value={item} onChange={setItem} suggestions={frequent} />
 
-          <Accordion title="備註／需先結清" dot={settleFirst}>
+          <Accordion title="備註 / 需先結清" dot={settleFirst}>
             <input
               className="text-input"
               type="text"
