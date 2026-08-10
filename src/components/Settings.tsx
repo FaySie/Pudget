@@ -21,6 +21,7 @@ import {
   setTheme,
   type Theme,
 } from '../lib/config'
+import { usePwaUpdate } from './PwaUpdateProvider'
 
 const THEME_OPTIONS: { value: Theme; label: string; Icon: TablerIcon }[] = [
   { value: 'light', label: '淺色', Icon: IconBrightness2 },
@@ -36,10 +37,19 @@ export function Settings({ onClose }: { onClose: () => void }) {
   const [items, setItems] = useState<string[]>(getFrequentItems())
   const [newItem, setNewItem] = useState('')
   const [theme, setThemeState] = useState<Theme>(getTheme())
+  const { checkForUpdate, applyUpdate, checking } = usePwaUpdate()
+  const [checkMsg, setCheckMsg] = useState('')
 
   function chooseTheme(t: Theme) {
     setThemeState(t)
     setTheme(t) // 立即套用並儲存
+  }
+
+  async function handleCheckUpdate() {
+    setCheckMsg('')
+    const result = await checkForUpdate()
+    if (result === 'updated') applyUpdate() // 有新版 → 重新載入套用
+    else setCheckMsg(result === 'latest' ? '已是最新版' : '目前無法檢查（請先加到主畫面）')
   }
 
   function addItem() {
@@ -148,6 +158,13 @@ export function Settings({ onClose }: { onClose: () => void }) {
               />
             </label>
           </Accordion>
+
+          <div className="check-row">
+            <button className="check-update" onClick={handleCheckUpdate} disabled={checking}>
+              {checking ? '檢查中…' : '檢查更新'}
+            </button>
+            {checkMsg && <span className="check-msg">{checkMsg}</span>}
+          </div>
 
           <div className="settings-copyright">
             Pudget 記帳布 · v{APP_VERSION}
