@@ -521,6 +521,39 @@
   display: inline-flex;
 }
 
+/* ===== 版本更新橫幅 ===== */
+.update-bar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  animation: toast-in 0.25s ease;
+}
+.update-bar__text {
+  flex: 1 1 auto;
+}
+.update-bar__btn {
+  flex: none;
+  background: var(--yellow);
+  color: var(--on-yellow);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 /* ===== Toast ===== */
 .toast {
   position: absolute;

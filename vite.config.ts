@@ -9,11 +9,12 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
+      injectRegister: false,
       includeAssets: ['pudget_favicon.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'Pudget 記帳布',
-        short_name: 'Pudget',
+        short_name: 'Pudget 記帳布',
         description: '隨手記一筆，自動寫進 Google Sheet 記帳本',
         theme_color: '#FFDA1F',
         background_color: '#EEF0F3',
