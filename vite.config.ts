@@ -1,11 +1,16 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import pkg from './package.json'
 
 // GitHub Pages 專案站台會部署在 https://<user>.github.io/Pudget/
 // 因此 base 設為 '/Pudget/'。若之後改用自訂網域或 user page，改成 '/'。
 export default defineConfig({
   base: '/Pudget/',
+  define: {
+    // 版本號單一來源:以 package.json 的 version 為準，建置時注入
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [
     react(),
     VitePWA({

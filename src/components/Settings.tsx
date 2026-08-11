@@ -29,7 +29,7 @@ const THEME_OPTIONS: { value: Theme; label: string; Icon: TablerIcon }[] = [
   { value: 'system', label: '跟隨系統', Icon: IconDeviceDesktop },
 ]
 
-const APP_VERSION = '0.1.0'
+const APP_VERSION = __APP_VERSION__
 
 export function Settings({ onClose }: { onClose: () => void }) {
   const [url, setUrl] = useState(getBackendUrl())
