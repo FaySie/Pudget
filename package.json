@@ -1,7 +1,7 @@
 {
   "name": "pudget",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "記帳布 Pudget — 個人自動記帳 PWA（寫入 Google Sheet）",
   "scripts": {
